@@ -75,11 +75,17 @@ async function processUrlBasedOnDomain(url) {
   }
 
   if (hostname.includes('xiaohongshu') || hostname.includes('xhslink')) {
-    // 小红书处理逻辑
-    parsedUrl.search = ''
-    parsedUrl.searchParams.set('xsec_token', 'CB7qo0pm---5VGlM5e3nteJTbaXUIBIzWehQTYSqJKOR0=')
-    return parsedUrl.toString()
-  } else if (hostname.includes('weixin')) {
+    // 获取并保留 xsec_token 参数
+    const xsecToken = parsedUrl.searchParams.get('xsec_token');
+    // 清空所有查询参数
+    parsedUrl.search = '';
+    // 重新设置 xsec_token 参数
+    if (xsecToken) {
+      parsedUrl.searchParams.set('xsec_token', xsecToken);
+    }
+    return parsedUrl.toString();
+  }
+   else if (hostname.includes('weixin')) {
     // 微信处理逻辑，保留到 &chksm 前的内容
     const chksmIndex = url.indexOf('&chksm')
     if (chksmIndex !== -1) {
