@@ -83,6 +83,8 @@ async function processUrlBasedOnDomain(url) {
     if (xsecToken) {
       parsedUrl.searchParams.set('xsec_token', xsecToken);
     }
+    // 添加 = 和 xsec_source=pc_user
+    parsedUrl.search += '&xsec_source=pc_user';
     return parsedUrl.toString();
   }
    else if (hostname.includes('weixin')) {
